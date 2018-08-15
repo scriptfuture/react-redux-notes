@@ -1,19 +1,19 @@
 # react-redux-notes
 
-Заметки на React + Redux
+Р—Р°РјРµС‚РєРё РЅР° React + Redux
 
-## Установка
+## РЈСЃС‚Р°РЅРѕРІРєР°
 
 ```bash
 cd react-redux-notes
 yarn
 ```
 
-## Запуск dev-сервера
+## Р—Р°РїСѓСЃРє dev-СЃРµСЂРІРµСЂР°
 
 ```bash
 yarn start
 ```
 
-## Скриншот
-![Скриншот](screenshot.png)
+## РЎРєСЂРёРЅС€РѕС‚
+![РЎРєСЂРёРЅС€РѕС‚](screenshot.png)

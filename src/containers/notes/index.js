@@ -53,9 +53,6 @@ class Notes extends Component {
 			  pages.push({"num": i, "isCurrent": parseInt(this.props.currentPage, 10) === i});
 		  } // end for
 	  }
-
-	  
-	  console.log(this.props);
 	
 	  return pages.map((page) =>
 			<div className={page.isCurrent?"c-page":"page"} key={page.num} onClick={(e) => this.props.changePage(page.num, this.props)}>{page.num}</div>

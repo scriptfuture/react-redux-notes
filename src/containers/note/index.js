@@ -3,6 +3,7 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+
 import {
   getNoteAsync
 } from '../../modules/notes'
@@ -29,35 +30,41 @@ class Note extends Component {
   }
   
 
+
   
   render() {
 
-	//let note = JSON.parse(this.props).note;
-	  
-	  	  
-	  console.log(this.props.note);
+	
+    let note = {"id": 0, "title": "", "text":"", "tags": []};
+    
+
+     if(typeof this.props.note !== 'undefined') {
+        note = this.props.note;
+        
+        if(typeof this.props.note.tags === 'undefined') {
+            note.tags = [];
+        }
+     }
+
 	  
 	  
 	  return (
-		  <div>
-	test
-	
-	
-			{/*
-			<h1>{this.props.title}</h1>
+		  <div className="notepage">
+          
+			<div className="num">{note.id}</div>
 
-			<div className="num">{this.props.note.title}</div>
-			
-			<div className="text">{this.props.note.text}</div>
-			
-			
-			
-			<div className="tags">{this.getTags(this.props.tags)}</div>
-			
-			*/}
+			<div className="header">{note.title}</div>
+            
+         
+			<div className="tags">{this.getTags(note.tags)}</div>
+            
 
-		 
-   	
+			<div className="text">
+               {note.text}
+            
+               <button onClick={this.props.history.goBack}>&larr; назад</button>
+            </div>
+
 			
 		  </div>
 		);

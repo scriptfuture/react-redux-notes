@@ -4,6 +4,7 @@ import Home from '../home'
 import About from '../about'
 import Notes from '../notes'
 import Note from '../note'
+import Tag from '../tag'
 
 const App = () => (
   <div>
@@ -26,6 +27,7 @@ const App = () => (
 	  <Route exact path="/note/:id" component={Note} />
 	  
 	  <Route exact path="/tags" component={Notes} />
+      <Route exact path="/tag/:id" component={Tag} />
     </main>
   </div>
 )

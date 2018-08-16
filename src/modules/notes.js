@@ -7,12 +7,17 @@ export const GETNOTE = 'notes/GETNOTE'
 export const CHANGEPAGE_REQUESTED = 'notes/CHANGEPAGE_REQUESTED'
 export const CHANGEPAGE = 'notes/CHANGEPAGE'
 
+export const GETTAG_REQUESTED = 'notes/GETTAG_REQUESTED'
+export const GETTAG = 'notes/GETTAG'
+
 const initialState = {
   notes: [],
   totalPages: 1,
   note: {},
+  tag:{},
   isNotes: false,
   isNote: false,
+  isTag: false,
   currentPage: 1
 }
 
@@ -45,6 +50,21 @@ export default (state = initialState, action) => {
         currentPage: action.page,
         notes: action.data.notes,
 		totalPages: action.data.totalPages
+      }
+      
+      
+    case GETTAG_REQUESTED:
+      return {
+        ...state,
+		isTag: true,
+        tag: action.data
+      }
+
+    case GETTAG:
+      return {
+        ...state,
+		isTag: false,
+        tag: action.data
       }
 
     default:
@@ -101,5 +121,30 @@ export const changePageNotes = (page) => {
 	});
 	
  
+  }
+}
+
+
+export const getTagAsync = (id) => {
+  return dispatch => {
+    dispatch({
+      type: GETTAG_REQUESTED
+    });
+	
+    return $.ajax({
+	  url: "/api/tag.json",
+	  data: {
+		id: id
+	  },
+	  success: function( result ) {
+
+		  dispatch({
+			type: GETTAG,
+			data: result
+		  });
+		  
+	  }
+	});
+	
   }
 }

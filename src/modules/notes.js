@@ -56,15 +56,17 @@ export default (state = initialState, action) => {
     case GETTAG_REQUESTED:
       return {
         ...state,
-		isTag: true,
-        tag: action.data
+		isTag: true
       }
 
     case GETTAG:
       return {
         ...state,
+        currentPage: action.page,
+        notes: action.data.notes,
+		totalPages: action.data.totalPages,
 		isTag: false,
-        tag: action.data
+        tag: action.data.tag
       }
 
     default:
@@ -125,22 +127,25 @@ export const changePageNotes = (page) => {
 }
 
 
-export const getTagAsync = (id) => {
+export const changePageTag = (id, page) => {
   return dispatch => {
     dispatch({
       type: GETTAG_REQUESTED
     });
 	
     return $.ajax({
-	  url: "/api/tag.json",
+	  url: "/api/tag"+page+".json",
 	  data: {
-		id: id
+		id: id,
+		page: page
 	  },
 	  success: function( result ) {
 
 		  dispatch({
 			type: GETTAG,
-			data: result
+			data: result,
+		    id: id,
+		    page: page
 		  });
 		  
 	  }

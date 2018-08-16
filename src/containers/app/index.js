@@ -5,6 +5,7 @@ import About from '../about'
 import Notes from '../notes'
 import Note from '../note'
 import Tag from '../tag'
+import Tags from '../tags'
 
 const App = () => (
   <div>
@@ -26,8 +27,9 @@ const App = () => (
 	  
 	  <Route exact path="/note/:id" component={Note} />
 	  
-	  <Route exact path="/tags" component={Notes} />
-      <Route exact path="/tag/:id" component={Tag} />
+	  <Route exact path="/tags" component={Tags} />
+      <Route exact path="/tag/:id/:page" component={Tag} />
+	  <Route exact path="/tag/:id" component={Tag} />
     </main>
   </div>
 )

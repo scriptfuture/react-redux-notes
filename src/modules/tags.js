@@ -12,22 +12,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
 	
-	
-	console.log(action);
-	
   switch (action.type) {
     case GETTAGS_REQUESTED:
       return {
         ...state,
-		isTags: true,
-        data: action.data
+		isTags: true
       }
 
     case GETTAGS:
       return {
         ...state,
 		isTags: false,
-        data: action.data
+        tags: action.data.tags
       }
 	 
 

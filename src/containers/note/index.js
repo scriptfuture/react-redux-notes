@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 
 
 import {
-  getNoteAsync
+  getNoteAsync,
+  removeNote
 } from '../../modules/notes'
 
 
@@ -14,10 +15,12 @@ class Note extends Component {
  
   componentDidMount() { 
   
-     let id = 1;
-     if(typeof this.props.match.params.id !== "undefined") id = this.props.match.params.id;
+      let id = 1;
+      if(typeof this.props.match.params.id !== "undefined") id = this.props.match.params.id;
   
-	 this.props.getNoteAsync(id);
+
+	  this.props.getNoteAsync(id); 
+	 
 
   } 
   
@@ -29,7 +32,17 @@ class Note extends Component {
       );
   }
   
-
+  
+  remove(id) {
+	  
+	  if(window.confirm("Удалить заметку?")) {
+		  this.props.removeNote(id, (res) => this.props.openNotes());
+	  } // end if
+  }
+  
+  update(id) {
+	  this.props.openUpdateNote(id);
+  }
 
   
   render() {
@@ -60,9 +73,17 @@ class Note extends Component {
             
 
 			<div className="text">
-               {note.text}
+                {note.text}
             
-               <button onClick={this.props.history.goBack}>&larr; назад</button>
+			    <div className="pull">
+					<div className="pull-right"><a onClick={this.props.history.goBack}>&larr;назад</a></div>
+				   
+					<div className="pull-left">
+					
+					  <a onClick={(e) => this.update(note.id)}>Редактировать</a> &nbsp;
+					  <a onClick={(e) => this.remove(note.id)}>Удалить</a>
+					</div>
+				</div>
             </div>
 
 			
@@ -76,7 +97,8 @@ class Note extends Component {
 const mapStateToProps = ({ notes  }) => ({
 
   note: notes.note,
-  isNote: notes.isNote
+  isNote: notes.isNote,
+  isRemove: notes.isRemove
   
 })
 
@@ -85,8 +107,11 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       getNoteAsync,
+	  removeNote,
 
-	  openTag:  (id) => push('/tag/'+id)
+	  openNotes:  () => push('/notes'),
+	  openTag:  (id) => push('/tag/'+id),
+	  openUpdateNote:  (id) => push('/update-note/'+id),
     },
     dispatch
   )

@@ -16,6 +16,8 @@ body {
 
 body a {
 	color:#4968D8;
+	text-decoration:underline;
+	cursor:pointer;
 }
 
 body a:hover {
@@ -44,7 +46,7 @@ header a {
 main {
 	margin: 0 auto;
 	width:80%;
-	background-color:#f1f1f1;
+	background-color:#fbfbfb;
 	
 	border-bottom: 1px solid grey;
 	border-top: 1px solid grey;
@@ -233,4 +235,30 @@ button:disabled {
     padding-right:6px;
     cursor:pointer;
     font-size:14px;
+}
+
+
+.alphabet {  padding: 10px;}
+.alphabet a { cursor:pointer; margin-right:10px;text-decoration: underline; }
+.alphabet ul {
+	padding-left:20px;
+}
+.alphabet .col1 { float: left; width: 250px; }
+.alphabet .col2 { float: left; width: 250px;}
+.alphabet .col3 { float: left; width: 250px;}
+.alphabet .col-clear { width:1px;height:1px; clear:both;}
+
+
+.pull-right { float: left; }
+.pull-left { float: right;}
+.pull { overflow: hidden; }
+
+
+.page-form input, textarea {
+	width:500px;
+}
+
+.page-form button {
+	cursor: pointer;
+	margin-top: 10px;
 }

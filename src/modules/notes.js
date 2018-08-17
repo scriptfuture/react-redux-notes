@@ -1,6 +1,5 @@
 import $ from "jquery";
 
-
 export const GETNOTE_REQUESTED = 'notes/GETNOTE_REQUESTED'
 export const GETNOTE = 'notes/GETNOTE'
 
@@ -10,6 +9,9 @@ export const CHANGEPAGE = 'notes/CHANGEPAGE'
 export const GETTAG_REQUESTED = 'notes/GETTAG_REQUESTED'
 export const GETTAG = 'notes/GETTAG'
 
+export const REMOVENOTE_REQUESTED = 'notes/REMOVENOTE_REQUESTED'
+export const REMOVENOTE = 'notes/REMOVENOTE'
+
 const initialState = {
   notes: [],
   totalPages: 1,
@@ -18,7 +20,8 @@ const initialState = {
   isNotes: false,
   isNote: false,
   isTag: false,
-  currentPage: 1
+  currentPage: 1,
+  isRemove: false
 }
 
 export default (state = initialState, action) => {
@@ -68,6 +71,18 @@ export default (state = initialState, action) => {
 		isTag: false,
         tag: action.data.tag
       }
+	  
+    case REMOVENOTE_REQUESTED:
+      return {
+        ...state,
+		isRemove: false
+      }
+
+    case REMOVENOTE:
+      return {
+        ...state,
+        isRemove: true
+      }
 
     default:
       return state
@@ -81,6 +96,7 @@ export const getNoteAsync = (id) => {
     });
 	
     return $.ajax({
+	  type: "GET",
 	  url: "/api/note.json",
 	  data: {
 		id: id
@@ -107,6 +123,7 @@ export const changePageNotes = (page) => {
     });
 	
 	return $.ajax({
+	  type: "GET",
 	  url: "/api/notes"+page+".json",
 	  data: {
 		page: page
@@ -134,6 +151,7 @@ export const changePageTag = (id, page) => {
     });
 	
     return $.ajax({
+	  type: "GET",
 	  url: "/api/tag"+page+".json",
 	  data: {
 		id: id,
@@ -147,6 +165,34 @@ export const changePageTag = (id, page) => {
 		    id: id,
 		    page: page
 		  });
+		  
+	  }
+	});
+	
+  }
+}
+
+export const removeNote = (id, callback) => {
+  return dispatch => {
+    dispatch({
+      type: REMOVENOTE_REQUESTED
+    });
+	
+    return $.ajax({
+	  type: "GET",
+	  url: "/api/remove.json",
+	  data: {
+		id: id
+	  },
+	  success: function( result ) {
+
+		  dispatch({
+			type: REMOVENOTE,
+			data: result,
+		    id: id
+		  });
+		  
+		  callback(result);
 		  
 	  }
 	});

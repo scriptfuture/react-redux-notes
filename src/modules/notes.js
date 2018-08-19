@@ -12,6 +12,12 @@ export const GETTAG = 'notes/GETTAG'
 export const REMOVENOTE_REQUESTED = 'notes/REMOVENOTE_REQUESTED'
 export const REMOVENOTE = 'notes/REMOVENOTE'
 
+export const NEWNOTE_REQUESTED = 'notes/NEWNOTE_REQUESTED'
+export const NEWNOTE = 'notes/NEWNOTE_REQUESTED'
+
+export const UPDATENOTE_REQUESTED = 'notes/UPDATENOTE_REQUESTED'
+export const UPDATENOTE = 'notes/UPDATENOTE_REQUESTED'
+
 const initialState = {
   notes: [],
   totalPages: 1,
@@ -21,7 +27,9 @@ const initialState = {
   isNote: false,
   isTag: false,
   currentPage: 1,
-  isRemove: false
+  isRemove: false,
+  isNew: false,
+  isUpdate: false
 }
 
 export default (state = initialState, action) => {
@@ -82,6 +90,30 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isRemove: true
+      }
+      
+    case NEWNOTE_REQUESTED:
+      return {
+        ...state,
+		isNew: false
+      }
+
+    case NEWNOTE:
+      return {
+        ...state,
+        isNew: true
+      }
+      
+    case UPDATENOTE_REQUESTED:
+      return {
+        ...state,
+		isUpdate: false
+      }
+
+    case UPDATENOTE:
+      return {
+        ...state,
+        isUpdate: true
       }
 
     default:
@@ -179,8 +211,8 @@ export const removeNote = (id, callback) => {
     });
 	
     return $.ajax({
-	  type: "GET",
-	  url: "/api/remove.json",
+	  type: "DELETE",
+	  url: "/api/ok.json",
 	  data: {
 		id: id
 	  },
@@ -190,6 +222,72 @@ export const removeNote = (id, callback) => {
 			type: REMOVENOTE,
 			data: result,
 		    id: id
+		  });
+		  
+		  callback(result);
+		  
+	  }
+	});
+	
+  }
+}
+
+export const newNote = (title, text, tags, callback) => {
+  return dispatch => {
+    dispatch({
+      type: NEWNOTE_REQUESTED
+    });
+	
+    return $.ajax({
+	  type: "GET",
+	  url: "/api/ok.json",
+	  data: {
+		title: title,
+        text: text,
+        tags: tags
+	  },
+	  success: function( result ) {
+
+		  dispatch({
+			type: NEWNOTE,
+			data: result,
+            title: title,
+            text: text,
+            tags: tags
+		  });
+		  
+		  callback(result);
+		  
+	  }
+	});
+	
+  }
+}
+
+export const updateNote = (id, title, text, tags, callback) => {
+  return dispatch => {
+    dispatch({
+      type: UPDATENOTE_REQUESTED
+    });
+	
+    return $.ajax({
+	  type: "GET",
+	  url: "/api/ok.json",
+	  data: {
+        id: id,
+		title: title,
+        text: text,
+        tags: tags
+	  },
+	  success: function( result ) {
+
+		  dispatch({
+			type: UPDATENOTE,
+			data: result,
+            id: id,
+            title: title,
+            text: text,
+            tags: tags
 		  });
 		  
 		  callback(result);

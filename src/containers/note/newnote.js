@@ -5,8 +5,7 @@ import { connect } from 'react-redux'
 
 
 import {
-  getNoteAsync,
-  removeNote
+  newNote
 } from '../../modules/notes'
 
 
@@ -18,6 +17,19 @@ class NewNote extends Component {
 
   } 
   
+  handleSubmit(event, self) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const title = self.refs.title.value;
+        const text = self.refs.text.value;
+        const tags = self.refs.tags.value;
+
+        self.props.newNote(title, text, tags, (res) => self.props.openNotes());
+        
+        return false;
+  }
+  
   render() {
 
 	
@@ -27,18 +39,18 @@ class NewNote extends Component {
 		  <div className="page-form">
 		    <h1>Новая заметка</h1>
 		  
-			<form>
+			<form onSubmit={(e) => this.handleSubmit(e, this)} action="#" method="post">
 				<p>
 					<label htmlFor="name">Заголовок</label><br />
-					<input type="text" id="title" name="title"/>
+					<input type="text" id="title" name="title"  ref='title'/>
 				</p>
 				<p>
 					<label htmlFor="name">Текст</label><br />
-				    <textarea rows="10" name="text"></textarea>
+				    <textarea rows="10" name="text"  ref='text'></textarea>
 				</p>
 				<p>
 					<label htmlFor="name">Теги (через запятую)</label><br />
-					<input type="text" id="text" name="text"/>
+					<input type="text" id="tags" name="tags"  ref='tags'/>
 				</p>
 				
 			    <p><button type="submit">Отправить</button></p>
@@ -61,12 +73,9 @@ const mapStateToProps = ({ notes  }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      getNoteAsync,
-	  removeNote,
+      newNote,
 
-	  openNotes:  () => push('/notes'),
-	  openTag:  (id) => push('/tag/'+id),
-	  openUpdateNote:  (id) => push('/update/note/'+id),
+	  openNotes:  () => push('/notes')
     },
     dispatch
   )
